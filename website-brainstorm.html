@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Eleventh Vow — Website Layout Brainstorm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --midnight: #0A1729;
+    --midnight-soft: #1A2A44;
+    --gold: #C9A961;
+    --gold-light: #E0C589;
+    --gold-deep: #A08240;
+    --cream: #FBF8F3;
+    --cream-warm: #F4EFE6;
+    --ink: #1A1A2E;
+    --muted: #6C7281;
+    --line: #E5DFD2;
+    --blush: #E8C5BD;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--cream); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .display { font-family: 'Playfair Display', serif; font-weight: 600; letter-spacing: -0.02em; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+  nav { position: sticky; top: 0; background: rgba(251, 248, 243, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); z-index: 100; padding: 18px 0; }
+  nav .container { display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: var(--midnight); }
+  .logo span { color: var(--gold); }
+  .nav-meta { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.16em; }
+
+  .hero { padding: 90px 0 60px; background: linear-gradient(180deg, var(--cream), var(--cream-warm)); }
+  .hero-eyebrow { color: var(--gold); text-transform: uppercase; font-size: 12px; letter-spacing: 0.2em; font-weight: 600; margin-bottom: 24px; }
+  .hero h1 { font-size: clamp(36px, 5vw, 56px); line-height: 1.1; color: var(--midnight); margin-bottom: 24px; max-width: 900px; }
+  .hero h1 em { color: var(--gold); font-style: italic; }
+  .hero-sub { font-size: 17px; color: var(--muted); max-width: 740px; line-height: 1.5; }
+
+  section { padding: 64px 0; }
+  section.alt { background: var(--cream-warm); }
+  .section-eyebrow { color: var(--gold); text-transform: uppercase; font-size: 12px; letter-spacing: 0.2em; font-weight: 600; margin-bottom: 12px; }
+  .section-title { font-size: clamp(26px, 3vw, 38px); color: var(--midnight); line-height: 1.15; margin-bottom: 14px; }
+  .section-intro { font-size: 16px; color: var(--muted); max-width: 760px; margin-bottom: 32px; line-height: 1.6; }
+
+  /* SITEMAP */
+  .sitemap {
+    background: var(--midnight);
+    color: var(--cream);
+    border-radius: 16px;
+    padding: 48px;
+    margin: 32px 0;
+  }
+  .sitemap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  @media (max-width: 800px) { .sitemap-grid { grid-template-columns: 1fr; } }
+  .sitemap-col h4 { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 16px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(201, 169, 97, 0.3); }
+  .sitemap-tree { list-style: none; padding: 0; }
+  .sitemap-tree li { padding: 8px 0; font-size: 14px; color: rgba(251, 248, 243, 0.9); position: relative; padding-left: 24px; }
+  .sitemap-tree li::before { content: '└'; color: var(--gold); position: absolute; left: 0; }
+  .sitemap-tree li ul { list-style: none; margin-top: 8px; padding-left: 16px; }
+  .sitemap-tree li ul li { font-size: 13px; color: rgba(251, 248, 243, 0.7); }
+  .sitemap-tree li small { color: rgba(251, 248, 243, 0.5); font-size: 11px; font-style: italic; display: block; }
+
+  /* WIREFRAMES */
+  .wireframe {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 0;
+    margin: 24px 0;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(10, 23, 41, 0.06);
+  }
+  .wf-browser {
+    background: #F2EDE4;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .wf-dots { display: flex; gap: 6px; }
+  .wf-dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+  .wf-url {
+    background: white;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: 12px;
+    flex: 1;
+    max-width: 360px;
+  }
+  .wf-nav {
+    background: var(--cream);
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .wf-logo { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--midnight); font-weight: 600; }
+  .wf-logo span { color: var(--gold); }
+  .wf-nav-links { display: flex; gap: 16px; font-size: 12px; color: var(--muted); }
+  .wf-btn {
+    background: var(--midnight);
+    color: var(--cream);
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .wf-btn.gold { background: var(--gold); color: var(--midnight); }
+  .wf-content { padding: 0; }
+
+  /* Block-style wireframe components */
+  .wf-hero {
+    background: linear-gradient(135deg, var(--midnight) 0%, var(--midnight-soft) 100%);
+    color: var(--cream);
+    padding: 60px 32px;
+    text-align: center;
+    position: relative;
+  }
+  .wf-hero::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(201, 169, 97, 0.2), transparent 70%);
+    border-radius: 50%;
+  }
+  .wf-hero h1 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 12px; line-height: 1.1; }
+  .wf-hero h1 em { color: var(--gold); }
+  .wf-hero p { font-size: 13px; color: rgba(251, 248, 243, 0.7); max-width: 480px; margin: 0 auto 20px; }
+  .wf-search {
+    background: white;
+    padding: 8px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 460px;
+    width: 100%;
+  }
+  .wf-search .wf-search-input { flex: 1; padding: 8px 12px; font-size: 12px; color: var(--muted); border-radius: 4px; background: var(--cream); text-align: left; }
+  .wf-search button { background: var(--gold); color: var(--midnight); padding: 8px 18px; border-radius: 4px; font-size: 12px; font-weight: 600; border: none; }
+
+  .wf-section { padding: 32px 24px; border-bottom: 1px solid var(--line); }
+  .wf-section-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--midnight); margin-bottom: 16px; }
+  .wf-section-title small { color: var(--gold); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 4px; font-family: 'Inter', sans-serif; }
+
+  .wf-card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 700px) { .wf-card-grid { grid-template-columns: 1fr; } }
+  .wf-card { background: var(--cream); border-radius: 8px; padding: 16px; border: 1px solid var(--line); }
+  .wf-card-img { background: linear-gradient(135deg, #C9A961, #E0C589); aspect-ratio: 16/10; border-radius: 6px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; color: var(--midnight); font-family: 'Playfair Display', serif; font-size: 11px; opacity: 0.7; }
+  .wf-card h5 { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--midnight); margin-bottom: 4px; }
+  .wf-card p { font-size: 11px; color: var(--muted); }
+  .wf-card .wf-card-meta { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 10px; color: var(--gold-deep); font-weight: 600; }
+
+  .wf-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 700px) { .wf-steps { grid-template-columns: 1fr; } }
+  .wf-step { padding: 16px; background: var(--cream); border-radius: 8px; border: 1px solid var(--line); }
+  .wf-step-num { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 28px; line-height: 1; margin-bottom: 8px; font-weight: 700; }
+  .wf-step h6 { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--midnight); margin-bottom: 4px; }
+  .wf-step p { font-size: 11px; color: var(--muted); }
+
+  /* Single auction page wireframe */
+  .wf-auction-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; padding: 24px; }
+  @media (max-width: 700px) { .wf-auction-layout { grid-template-columns: 1fr; } }
+  .wf-gallery { background: linear-gradient(135deg, #C9A961, #1A2A44); aspect-ratio: 16/10; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-family: 'Playfair Display', serif; font-size: 14px; opacity: 0.85; }
+  .wf-bid-panel { background: var(--midnight); color: var(--cream); padding: 20px; border-radius: 8px; }
+  .wf-bid-panel .wf-current-bid { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--gold); font-weight: 700; line-height: 1; }
+  .wf-bid-panel .wf-bid-label { font-size: 10px; color: rgba(251, 248, 243, 0.6); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px; }
+  .wf-bid-panel .wf-timer { background: rgba(201, 169, 97, 0.15); border-radius: 6px; padding: 10px; margin: 14px 0; text-align: center; }
+  .wf-bid-panel .wf-timer-val { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--gold); }
+  .wf-bid-panel .wf-timer-label { font-size: 9px; color: rgba(251, 248, 243, 0.5); text-transform: uppercase; letter-spacing: 0.16em; }
+  .wf-bid-panel .wf-bid-input { background: rgba(251, 248, 243, 0.06); border-radius: 6px; padding: 10px; font-size: 12px; color: rgba(251, 248, 243, 0.7); margin-bottom: 8px; }
+  .wf-bid-panel .wf-bid-btn { background: var(--gold); color: var(--midnight); padding: 12px; border-radius: 6px; font-size: 13px; font-weight: 700; text-align: center; }
+
+  .wf-venue-info { padding: 0 24px 24px; }
+  .wf-venue-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--midnight); margin-bottom: 4px; }
+  .wf-venue-loc { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  .wf-fact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 12px; background: var(--cream); border-radius: 6px; margin: 12px 0; }
+  @media (max-width: 700px) { .wf-fact-grid { grid-template-columns: repeat(2, 1fr); } }
+  .wf-fact { font-size: 10px; }
+  .wf-fact .wf-fact-val { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--midnight); font-weight: 600; }
+  .wf-fact .wf-fact-lbl { color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-size: 9px; }
+
+  /* Dashboard wireframe */
+  .wf-dashboard { display: grid; grid-template-columns: 200px 1fr; gap: 0; min-height: 320px; }
+  @media (max-width: 700px) { .wf-dashboard { grid-template-columns: 1fr; } }
+  .wf-sidebar { background: var(--cream); border-right: 1px solid var(--line); padding: 16px; }
+  .wf-sidebar-item { padding: 8px 12px; font-size: 12px; color: var(--muted); border-radius: 4px; margin-bottom: 4px; }
+  .wf-sidebar-item.active { background: var(--midnight); color: var(--cream); font-weight: 600; }
+  .wf-dash-content { padding: 24px; }
+  .wf-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+  @media (max-width: 700px) { .wf-stat-row { grid-template-columns: 1fr; } }
+  .wf-stat { background: var(--cream); padding: 14px; border-radius: 6px; }
+  .wf-stat .wf-stat-val { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--gold); font-weight: 600; }
+  .wf-stat .wf-stat-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .wf-table { background: var(--cream); border-radius: 6px; padding: 12px; }
+  .wf-table-header { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 12px; padding: 8px 12px; border-bottom: 1px solid var(--line); font-size: 10px; color: var(--gold-deep); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+  .wf-table-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 12px; padding: 10px 12px; border-bottom: 1px solid var(--line); font-size: 11px; color: var(--ink); align-items: center; }
+  .wf-table-row:last-child { border-bottom: none; }
+  .wf-status { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 9px; font-weight: 600; text-transform: uppercase; }
+  .wf-status.live { background: rgba(45, 106, 79, 0.12); color: #2D6A4F; }
+  .wf-status.upcoming { background: rgba(199, 117, 69, 0.12); color: #C77545; }
+  .wf-status.closed { background: rgba(108, 114, 129, 0.12); color: var(--muted); }
+
+  /* Annotation callouts */
+  .annotations { background: var(--cream); border: 1px solid var(--line); border-radius: 12px; padding: 24px; margin-top: 16px; }
+  .annotations h4 { font-family: 'Playfair Display', serif; color: var(--midnight); font-size: 16px; margin-bottom: 12px; }
+  .annotations ul { list-style: none; padding: 0; }
+  .annotations li { padding: 8px 0; padding-left: 24px; font-size: 14px; color: var(--ink); line-height: 1.5; position: relative; }
+  .annotations li::before { content: '◆'; color: var(--gold); position: absolute; left: 0; top: 8px; font-size: 10px; }
+  .annotations strong { color: var(--midnight); }
+
+  /* Design system note */
+  .design-system {
+    background: var(--midnight);
+    color: var(--cream);
+    border-radius: 16px;
+    padding: 40px;
+    margin: 32px 0;
+  }
+  .design-system h3 { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 14px; text-transform: uppercase; letter-spacing: 0.16em; margin-bottom: 20px; }
+  .ds-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  @media (max-width: 700px) { .ds-grid { grid-template-columns: 1fr; } }
+  .ds-col h4 { font-family: 'Playfair Display', serif; color: var(--cream); font-size: 18px; margin-bottom: 12px; }
+  .ds-col p { color: rgba(251, 248, 243, 0.8); font-size: 14px; line-height: 1.6; margin-bottom: 10px; }
+  .ds-swatches { display: flex; gap: 8px; margin: 12px 0; flex-wrap: wrap; }
+  .swatch { width: 56px; height: 56px; border-radius: 6px; position: relative; font-size: 9px; color: var(--cream); padding: 6px; }
+  .swatch.midnight { background: #0A1729; border: 1px solid rgba(251, 248, 243, 0.2); }
+  .swatch.gold { background: #C9A961; color: #0A1729; }
+  .swatch.cream { background: #FBF8F3; color: #0A1729; }
+  .swatch.blush { background: #E8C5BD; color: #0A1729; }
+
+  footer { background: var(--midnight); color: rgba(251, 248, 243, 0.6); padding: 32px 0; text-align: center; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="logo">Eleventh <span>Vow</span></div>
+    <div class="nav-meta">Website Layout Brainstorm · Platform Wireframes</div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Platform Design · Information Architecture &amp; Wireframes</div>
+    <h1 class="display">What the Eleventh Vow platform <em>actually looks like</em>.</h1>
+    <p class="hero-sub">Sitemap, page-by-page wireframes, and the design system that ties it all together. Strategic brainstorm — not final UI. Built to give you a shared visual reference before you commit any engineering time.</p>
+  </div>
+</section>
+
+<!-- SITEMAP -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow">01 · Information Architecture</div>
+    <h2 class="section-title display">The full sitemap — every page on day one.</h2>
+    <p class="section-intro">Two distinct surfaces sharing a common navigation: the couple-facing marketplace (top of funnel) and the venue-facing operating console (where money is made). Marketing pages bridge the two.</p>
+
+    <div class="sitemap">
+      <div class="sitemap-grid">
+        <div class="sitemap-col">
+          <h4>🌹 Couple-Facing</h4>
+          <ul class="sitemap-tree">
+            <li>Homepage <small>The dream + search hook</small></li>
+            <li>Live Auctions
+              <ul>
+                <li>All auctions (filterable)</li>
+                <li>Single auction page</li>
+                <li>Map view</li>
+              </ul>
+            </li>
+            <li>How It Works <small>3-step explainer for first-timers</small></li>
+            <li>Won Auctions / Case Studies <small>Social proof gallery</small></li>
+            <li>Date Alerts Signup <small>Lead magnet (Hormozi)</small></li>
+            <li>Couple Dashboard
+              <ul>
+                <li>My active bids</li>
+                <li>Watchlist</li>
+                <li>Won venues</li>
+                <li>Saved searches</li>
+                <li>Profile</li>
+              </ul>
+            </li>
+            <li>Sign up / Login</li>
+          </ul>
+        </div>
+
+        <div class="sitemap-col">
+          <h4>🏛 Venue-Facing</h4>
+          <ul class="sitemap-tree">
+            <li>For Venues Landing <small>The pitch — current venue-pitch.html</small></li>
+            <li>Founding Pilot Application <small>Form for new venues</small></li>
+            <li>Venue Dashboard
+              <ul>
+                <li>My listings (active/scheduled/closed)</li>
+                <li>Bidder analytics per auction</li>
+                <li>Calendar of upcoming dates</li>
+                <li>Payouts &amp; commission ledger</li>
+                <li>Profile editor</li>
+              </ul>
+            </li>
+            <li>Listing Creator <small>New auction wizard</small></li>
+            <li>Resources <small>Listing best practices, photo guidance</small></li>
+            <li>Admin (internal only)
+              <ul>
+                <li>Venue approvals</li>
+                <li>Auction monitoring</li>
+                <li>Dispute resolution</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOMEPAGE WIREFRAME -->
+<section class="alt">
+  <div class="container">
+    <div class="section-eyebrow">02 · Couple-Facing Homepage</div>
+    <h2 class="section-title display">The homepage — designed for the couple's first 30 seconds.</h2>
+    <p class="section-intro">First impression sets the entire brand perception. The homepage leads with the dream (premium venue, accessible auction), not the mechanic. Search bar above the fold, social proof immediately below, how-it-works to demystify, ending soonest auctions to drive urgency.</p>
+
+    <div class="wireframe">
+      <div class="wf-browser">
+        <div class="wf-dots"><span></span><span></span><span></span></div>
+        <div class="wf-url">eleventhvow.com</div>
+      </div>
+      <div class="wf-nav">
+        <div class="wf-logo">Eleventh <span>Vow</span></div>
+        <div class="wf-nav-links" style="align-items: center;">
+          <span>Live Auctions</span>
+          <span>How It Works</span>
+          <span>For Venues</span>
+          <div class="wf-btn">Sign In</div>
+        </div>
+      </div>
+      <div class="wf-hero">
+        <h1>Every dream venue. Even at the <em>eleventh hour</em>.</h1>
+        <p>Bid on premium wedding venues across the country. Pay only what you're willing to commit.</p>
+        <div class="wf-search">
+          <div class="wf-search-input">📍  Where do you want to get married?</div>
+          <button>Search</button>
+        </div>
+      </div>
+
+      <div class="wf-section">
+        <div class="wf-section-title"><small>Ending soon</small>Auctions closing in 24 hours</div>
+        <div class="wf-card-grid">
+          <div class="wf-card"><div class="wf-card-img">Venue photo</div><h5>The Bowery House</h5><p>Brooklyn · 200 guests</p><div class="wf-card-meta"><span>$8,400 current</span><span>17h left</span></div></div>
+          <div class="wf-card"><div class="wf-card-img">Venue photo</div><h5>Vineyard Estate</h5><p>Sonoma · 150 guests</p><div class="wf-card-meta"><span>$14,200 current</span><span>9h left</span></div></div>
+          <div class="wf-card"><div class="wf-card-img">Venue photo</div><h5>The Atrium</h5><p>Chicago · 300 guests</p><div class="wf-card-meta"><span>$11,750 current</span><span>22h left</span></div></div>
+        </div>
+      </div>
+
+      <div class="wf-section">
+        <div class="wf-section-title"><small>How it works</small>From bid to "I do"</div>
+        <div class="wf-steps">
+          <div class="wf-step"><div class="wf-step-num">1</div><h6>Browse curated auctions</h6><p>Each venue is verified and pre-vetted. Filter by city, date, capacity, style.</p></div>
+          <div class="wf-step"><div class="wf-step-num">2</div><h6>Place a bid you can stand behind</h6><p>Set your max. We auto-bid up to your ceiling so you never miss a chance.</p></div>
+          <div class="wf-step"><div class="wf-step-num">3</div><h6>Win, tour, commit</h6><p>Win the auction, schedule your tour, confirm the booking. Deposit refundable if the tour falls short.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="annotations">
+      <h4>Key design decisions on this page</h4>
+      <ul>
+        <li><strong>Hero is aspirational, not transactional.</strong> "Every dream venue" before "Bid on auctions" — emotional language first, mechanic second. Couples buy on emotion.</li>
+        <li><strong>The word "auction" appears only after the dream is sold.</strong> Sub-headline introduces the concept, not the headline. Same logic Patrick applied to the venue pitch.</li>
+        <li><strong>Ending soon section creates urgency without manufacturing scarcity.</strong> Real countdown on real auctions. Scarcity that's earned, not invented.</li>
+        <li><strong>How It Works is the demystifier.</strong> First-time visitors don't trust the auction format yet. Three steps in plain language removes the anxiety before the bid.</li>
+        <li><strong>"Deposit refundable if the tour falls short" is the most important sentence on the page.</strong> Solves the offline-booking trust problem in one line.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- AUCTION PAGE -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow">03 · The Single Auction Page</div>
+    <h2 class="section-title display">The bid page — where the transaction lives.</h2>
+    <p class="section-intro">This is the most important page on the platform. Every couple-facing conversion happens here. Layout follows the eBay/StockX pattern: hero image, sticky bid panel on the right, venue details below the fold. Bidding is the primary action; everything else supports.</p>
+
+    <div class="wireframe">
+      <div class="wf-browser">
+        <div class="wf-dots"><span></span><span></span><span></span></div>
+        <div class="wf-url">eleventhvow.com/auction/the-vineyard-estate-jun-14-2027</div>
+      </div>
+      <div class="wf-nav">
+        <div class="wf-logo">Eleventh <span>Vow</span></div>
+        <div class="wf-nav-links" style="align-items: center;">
+          <span>Live Auctions</span>
+          <span>Watchlist (3)</span>
+          <div class="wf-btn gold">Place Bid</div>
+        </div>
+      </div>
+
+      <div class="wf-auction-layout">
+        <div>
+          <div class="wf-gallery">Hero gallery · 8 photos + video tour</div>
+        </div>
+        <div class="wf-bid-panel">
+          <div class="wf-bid-label">Current bid</div>
+          <div class="wf-current-bid">$14,200</div>
+          <div style="font-size: 11px; color: rgba(251, 248, 243, 0.6); margin-top: 4px;">12 bids · floor $12,000</div>
+
+          <div class="wf-timer">
+            <div class="wf-timer-val">2d 14h 22m</div>
+            <div class="wf-timer-label">Auction ends</div>
+          </div>
+
+          <div class="wf-bid-input">Your max bid: $______</div>
+          <div class="wf-bid-btn">Place Bid →</div>
+
+          <div style="margin-top: 12px; font-size: 10px; color: rgba(251, 248, 243, 0.5); text-align: center;">Refundable deposit at close · tour included</div>
+        </div>
+      </div>
+
+      <div class="wf-venue-info">
+        <div class="wf-venue-title">The Vineyard Estate</div>
+        <div class="wf-venue-loc">📍 Sonoma, California · Saturday, June 14, 2027</div>
+
+        <div class="wf-fact-grid">
+          <div class="wf-fact"><div class="wf-fact-val">150</div><div class="wf-fact-lbl">Max guests</div></div>
+          <div class="wf-fact"><div class="wf-fact-val">Yes</div><div class="wf-fact-lbl">Catering incl.</div></div>
+          <div class="wf-fact"><div class="wf-fact-val">Outdoor</div><div class="wf-fact-lbl">Style</div></div>
+          <div class="wf-fact"><div class="wf-fact-val">9hr</div><div class="wf-fact-lbl">Event window</div></div>
+        </div>
+
+        <p style="font-size: 13px; color: var(--muted); margin-top: 12px; line-height: 1.6;">A working vineyard estate on 40 acres of rolling hills. Ceremony in the grove, reception under the open-air pavilion. Included: full plated dinner, open bar, day-of coordinator, bridal suite, on-site parking for 80 vehicles. <span style="color: var(--gold-deep); font-weight: 600;">Read more →</span></p>
+      </div>
+    </div>
+
+    <div class="annotations">
+      <h4>Key design decisions on this page</h4>
+      <ul>
+        <li><strong>Bid panel is sticky on scroll.</strong> No matter where the couple is in the page, the bid action follows them. Conversion-critical.</li>
+        <li><strong>Floor and bid count are visible but not loud.</strong> The auction mechanic is transparent without being the focus. The dream venue is the focus.</li>
+        <li><strong>Refundable deposit line directly under the bid button.</strong> Reduces conversion anxiety at the exact moment they're about to commit.</li>
+        <li><strong>Fact grid is structured, not freeform.</strong> Max guests, catering Y/N, style, window — same four facts every venue, so couples can compare apples to apples. Freeform description handles the rest.</li>
+        <li><strong>The page URL includes venue name + date.</strong> SEO-friendly. Shareable. "I just placed a bid on this!" links back beautifully.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- VENUE DASHBOARD -->
+<section class="alt">
+  <div class="container">
+    <div class="section-eyebrow">04 · Venue Dashboard</div>
+    <h2 class="section-title display">The operating console — where venues see what they're earning.</h2>
+    <p class="section-intro">Venues are the harder side of the marketplace to retain. The dashboard has to show them clear value every time they log in: revenue earned, upcoming auctions, bidder demand on past listings. Transparency is the retention strategy.</p>
+
+    <div class="wireframe">
+      <div class="wf-browser">
+        <div class="wf-dots"><span></span><span></span><span></span></div>
+        <div class="wf-url">eleventhvow.com/venue/dashboard</div>
+      </div>
+      <div class="wf-nav">
+        <div class="wf-logo">Eleventh <span>Vow</span></div>
+        <div class="wf-nav-links" style="align-items: center;">
+          <span style="font-size: 11px;">The Vineyard Estate</span>
+          <div class="wf-btn gold">+ New Auction</div>
+        </div>
+      </div>
+
+      <div class="wf-dashboard">
+        <div class="wf-sidebar">
+          <div class="wf-sidebar-item active">📊 Overview</div>
+          <div class="wf-sidebar-item">📅 Auctions</div>
+          <div class="wf-sidebar-item">💰 Payouts</div>
+          <div class="wf-sidebar-item">👥 Bidder Insights</div>
+          <div class="wf-sidebar-item">🏛 My Profile</div>
+          <div class="wf-sidebar-item">⚙ Settings</div>
+        </div>
+
+        <div class="wf-dash-content">
+          <div class="wf-stat-row">
+            <div class="wf-stat"><div class="wf-stat-val">$42,600</div><div class="wf-stat-lbl">YTD Revenue</div></div>
+            <div class="wf-stat"><div class="wf-stat-val">7</div><div class="wf-stat-lbl">Active Auctions</div></div>
+            <div class="wf-stat"><div class="wf-stat-val">62%</div><div class="wf-stat-lbl">Avg Lift Above Floor</div></div>
+          </div>
+
+          <div class="wf-table">
+            <div class="wf-table-header">
+              <div>Auction</div>
+              <div>Date</div>
+              <div>Bids</div>
+              <div>Status</div>
+            </div>
+            <div class="wf-table-row">
+              <div>Jun 14, 2027</div>
+              <div>2d 14h left</div>
+              <div>12 bids</div>
+              <div><span class="wf-status live">Live</span></div>
+            </div>
+            <div class="wf-table-row">
+              <div>Sep 18, 2027</div>
+              <div>opens in 4 days</div>
+              <div>—</div>
+              <div><span class="wf-status upcoming">Upcoming</span></div>
+            </div>
+            <div class="wf-table-row">
+              <div>Aug 5, 2026</div>
+              <div>closed Apr 12</div>
+              <div>18 bids · $16,400</div>
+              <div><span class="wf-status closed">Closed</span></div>
+            </div>
+            <div class="wf-table-row">
+              <div>May 22, 2027</div>
+              <div>closed Mar 28</div>
+              <div>9 bids · $13,200</div>
+              <div><span class="wf-status closed">Closed</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="annotations">
+      <h4>Key design decisions on this page</h4>
+      <ul>
+        <li><strong>YTD Revenue is the first number they see.</strong> Reminds them why they're here. Lift percentage right next to it tells the success story.</li>
+        <li><strong>Bidder Insights is a primary sidebar item, not buried.</strong> Even when a venue's auction doesn't lift much, the bidder data has standalone value — they take it back to their direct sales team to inform fixed pricing.</li>
+        <li><strong>One-click new auction creation.</strong> Friction kills supply on a marketplace. The "+ New Auction" button is in the top nav at all times.</li>
+        <li><strong>Calendar view as a sidebar item.</strong> Venues think in dates. Give them a calendar-first view of upcoming events rather than a flat list.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN SYSTEM -->
+<section>
+  <div class="container">
+    <div class="section-eyebrow">05 · Design System Pointers</div>
+    <h2 class="section-title display">The visual language that ties it all together.</h2>
+    <p class="section-intro">Premium hospitality aesthetic — closer to Aman or Soho House than to The Knot or WeddingWire. The aesthetic is intentional brand positioning, not decoration. Premium look = premium venue association.</p>
+
+    <div class="design-system">
+      <h3>Core Visual Language</h3>
+      <div class="ds-grid">
+        <div class="ds-col">
+          <h4>Color Palette</h4>
+          <p>Midnight navy as the brand anchor. Champagne gold as the singular accent. Cream as the breath. Restraint is the look.</p>
+          <div class="ds-swatches">
+            <div class="swatch midnight">#0A1729</div>
+            <div class="swatch gold">#C9A961</div>
+            <div class="swatch cream">#FBF8F3</div>
+            <div class="swatch blush">#E8C5BD</div>
+          </div>
+          <p style="font-size: 12px;">Avoid more than one accent color per page. Restraint signals premium.</p>
+        </div>
+
+        <div class="ds-col">
+          <h4>Typography</h4>
+          <p><strong>Playfair Display</strong> serif for all headlines, page titles, venue names, prices. Editorial feel.</p>
+          <p><strong>Inter</strong> sans-serif for body, UI, data, navigation. Modern, clean, readable on every device.</p>
+          <p>Generous letter spacing on uppercase labels (0.12em–0.20em). Tabular figures for all numeric data — currency aligns, bids align, no jagged digits.</p>
+        </div>
+      </div>
+
+      <div class="ds-grid" style="margin-top: 32px;">
+        <div class="ds-col">
+          <h4>Voice &amp; Tone</h4>
+          <p>Couple-facing: aspirational, emotional, specific. "Your wedding" not "a wedding." Use sensory language for venue descriptions.</p>
+          <p>Venue-facing: clear, financial, respectful. No fluff. Lead with the dollar value to the venue, not the platform features.</p>
+          <p>Never use the word "discount" anywhere. Replace with "exclusive rate," "curated mid-week," or "premier opening."</p>
+        </div>
+
+        <div class="ds-col">
+          <h4>Imagery Standards</h4>
+          <p>Real venue photography only — no stock. Each listing needs minimum 8 photos including: hero exterior, ceremony space, reception space, suite, food/styling detail.</p>
+          <p>Photo curation is part of the platform's promise. Build photo standards into the venue onboarding checklist.</p>
+          <p>Couples respond to lifestyle photography — actual weddings happening, not staged spaces. Build a "real weddings" library from past clients.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UX CONSIDERATIONS -->
+<section class="alt">
+  <div class="container">
+    <div class="section-eyebrow">06 · UX Considerations Specific to This Business</div>
+    <h2 class="section-title display">The five things wedding auction platforms have to get right.</h2>
+
+    <div class="annotations" style="margin-top: 32px;">
+      <h4>1. The trust ladder before the bid</h4>
+      <ul>
+        <li>Couples won't bid blind. Every auction page needs verified photos, video walkthrough where possible, real reviews from past weddings at that venue, and clear deposit-protection language directly under the bid button.</li>
+        <li>The platform should display a "verified venue" badge with the criteria explained on hover — minimum years in business, liability insurance confirmed, photos verified, contract on file.</li>
+      </ul>
+    </div>
+
+    <div class="annotations" style="margin-top: 16px;">
+      <h4>2. Auto-bid is non-negotiable</h4>
+      <ul>
+        <li>The "set your maximum and we'll bid up to it" mechanic eliminates auction sniping anxiety. Couples set a ceiling once and walk away. They check back when they get the win/loss email.</li>
+        <li>Without auto-bid, couples either over-pay in the heat of the moment or under-bid out of risk aversion. Both kill the platform's value proposition.</li>
+      </ul>
+    </div>
+
+    <div class="annotations" style="margin-top: 16px;">
+      <h4>3. The 72-hour close window matters more than the listing window</h4>
+      <ul>
+        <li>Listings can be live for weeks, but the bidding window — when couples can actually bid — should be a tight 48–72 hours per auction. Compressed urgency drives bid intensity. Patrick's house-sale FOMO logic applied directly.</li>
+        <li>Show the countdown timer prominently. The clock is the conversion engine.</li>
+      </ul>
+    </div>
+
+    <div class="annotations" style="margin-top: 16px;">
+      <h4>4. The post-win flow is critical and underbuilt elsewhere</h4>
+      <ul>
+        <li>The 60 seconds after a couple wins is the highest-conversion moment in the entire customer journey. Built-in upsell prompts: "Need a photographer? See our recommended partners. Book by Friday and get 10% off." This is where Money Models upsells activate.</li>
+        <li>Send a win confirmation email within 30 seconds of the auction closing. The longer the gap, the colder the lead becomes.</li>
+      </ul>
+    </div>
+
+    <div class="annotations" style="margin-top: 16px;">
+      <h4>5. The venue's listing creator should write the listing for them</h4>
+      <ul>
+        <li>Most venue owners can't write good marketing copy. The listing creator should be a wizard: upload photos, fill out structured facts, AI-generate a draft description in the Eleventh Vow voice, venue reviews and approves with light edits.</li>
+        <li>This dramatically reduces venue onboarding friction. A venue can list a date in 15 minutes instead of 90.</li>
+      </ul>
+    </div>
+
+    <div class="annotations" style="margin-top: 16px;">
+      <h4>6. Photo experience innovations — the differentiator (Brainstorm Update · May 22)</h4>
+      <ul>
+        <li><strong>Time-of-day slider</strong> on hero photography. Drag from morning &rarr; afternoon &rarr; golden hour &rarr; reception. Same venue, four different sales pitches depending on the couple's vision.</li>
+        <li><strong>Real weddings toggle.</strong> Switch between staged venue-only shots and actual past weddings held at the venue. Couples want to project themselves into the space — empty ballrooms are real estate listings, not wedding inspiration.</li>
+        <li><strong>Mood chips.</strong> Boho &middot; Candlelit &middot; Modern &middot; Garden &middot; Romantic. Photo grid re-sorts to lead with images matching the selected vibes. Same database, personalized order.</li>
+        <li><strong>Hero reel autoplays on hover.</strong> 12-second cinematic edit generated via Higgs Field. Galleries are dead; reels are how Gen Z evaluates everything.</li>
+        <li><strong>Why these matter:</strong> The Knot's photo gallery is functionally identical to a real estate listing. Eleventh Vow's job is to make a venue page feel like a story about a wedding day, not a directory entry. These features are the wedge — the auction is the mechanic, the photo experience is what makes couples pick the platform.</li>
+      </ul>
+    </div>
+
+    <div class="annotations" style="margin-top: 16px;">
+      <h4>7. The post-win celebration sequence (Brainstorm Update · May 22)</h4>
+      <ul>
+        <li><strong>On-site:</strong> Full-screen confetti animation. "YOU JUST BOOKED [VENUE]" hero moment. Auto-generated share-to-Instagram card (couple name + venue + date in Eleventh Vow brand). Free distribution.</li>
+        <li><strong>Email #1 (within 30 seconds):</strong> Celebration-first. Subject line does the work. Logistics deferred.</li>
+        <li><strong>Email #2 (1 hour later):</strong> Logistics — venue contact, contract handoff, next steps.</li>
+        <li><strong>Email #3 (24-48 hours later):</strong> The meme email. Wedding-themed funny content. Lands when adrenaline has settled and they're showing friends. Top-of-mind without sales-pitch tone.</li>
+        <li><strong>The outbid recovery flow:</strong> "Outbid &mdash; here are 3 similar venues closing this week" within 5 minutes of close. Couples who lost still proved real intent. Most valuable warm-lead pool the platform has &mdash; don't let them bounce to The Knot.</li>
+      </ul>
+    </div>
+
+    <div class="annotations" style="margin-top: 16px;">
+      <h4>8. Couple-side marketing language reframe (Brainstorm Update · May 22)</h4>
+      <ul>
+        <li>"Bidding" carries eBay/sneaker-collector baggage that clashes with the once-in-a-lifetime emotional weight of choosing a wedding venue. On couple-facing marketing surfaces, prefer "live offers," "couples compete for your date," or "open offers."</li>
+        <li>Inside the product (dashboard, bid panel), "bid" is fine &mdash; it describes the actual action. The reframe is for marketing pages and outreach copy.</li>
+        <li>Same principle Patrick already established for venue-side language ("Founding Venue Profit Pilot," never "auction"). Now extended to the couple side.</li>
+      </ul>
+    </div>
+
+    <div class="annotations" style="margin-top: 16px;">
+      <h4>9. The couple's personal mood board &middot; Install 2 (Brainstorm Update · May 22)</h4>
+      <ul>
+        <li>Pinterest-style profile feature. Couples connect Pinterest, paste a board URL, or upload screenshots. The platform extracts the aesthetic into a "vision vector" &mdash; palette, textures, recurring motifs (string lights, exposed wood, peonies, marble, candles).</li>
+        <li><strong>Output 1:</strong> Venue recommendations re-rank by aesthetic match. Couple who pinned 40 candlelit barn images gets candlelit barn venues first.</li>
+        <li><strong>Output 2:</strong> "Your wedding here" AI preview &mdash; couple lands on a venue page, the system composites their aesthetic onto the venue's hero photo. The closing moment that makes couples choose Eleventh Vow over a directory.</li>
+        <li><strong>Output 3 &middot; destination match:</strong> Same vision vector becomes a trip planner. "You pinned 30 Tuscan vineyard images &mdash; here are Tuscan venues in Tuscany, plus Napa, Sonoma, Paso Robles, and Texas Hill Country alternatives if you'd prefer domestic."</li>
+        <li>Why it sticks: couples invest emotional time into curating the mood board, which creates platform lock-in and gives Eleventh Vow priceless preference data.</li>
+      </ul>
+    </div>
+
+    <div class="annotations" style="margin-top: 16px;">
+      <h4>10. Venue-side reel pipeline &middot; the cold outreach mechanism (Brainstorm Update · May 22)</h4>
+      <ul>
+        <li>Every target venue gets a custom 10-second cinematic reel generated automatically. Tools: Higgs Field for cinematic camera motion + licensed music sync + scene-clustering AI that ranks photos by composition and emotional content.</li>
+        <li>The reel is the cold outreach asset itself &mdash; not a follow-up. The first email leads with the gift. Sample line: <em>"Spent 90 seconds making this for you &mdash; imagine couples competing for your June dates after seeing it. We're launching a platform where couples make live offers for venues. Want to be in the first 10?"</em></li>
+        <li>Watermark the free version with Eleventh Vow. Unwatermarked version unlocks at signup. Even venues that say no often post the reel themselves &mdash; watermark = free referral.</li>
+        <li>Phasing: hand-craft the first 5 reels. Build semi-automated pipeline at month 1-2 with manual QA. Full automation by month 3 with quality-gated queue (50/night generated, only top 10 sent).</li>
+        <li>Style picker (Install 2): four variants per venue &mdash; Cinematic, Editorial, Romantic, Documentary. Venue picks the one matching their brand. They're emotionally invested in the asset before signing up.</li>
+      </ul>
+    </div>
+
+    <div class="annotations" style="margin-top: 16px;">
+      <h4>11. Venue activation score &middot; internal only (Brainstorm Update · May 22)</h4>
+      <ul>
+        <li>Quietly track per-venue promotion behavior: did they post the reel? share their listing? embed the countdown widget on their own site? show up in bidding chat?</li>
+        <li>Top-decile activation venues get featured placement in couple-facing discovery (silent).</li>
+        <li>Bottom-decile venues get coaching emails ("here's how the top venues are promoting").</li>
+        <li>Never surface the score to venues &mdash; that creates gaming and resentment. Use it to make better platform decisions without venues feeling scored.</li>
+        <li>Healthy market dynamics: venues that promote get rewarded, which incentivizes more promotion, which gives the platform more brand exposure for free. Venues that won't promote drift down the rankings and eventually churn off &mdash; quality flywheel.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div style="font-family: 'Playfair Display', serif; font-size: 18px; color: var(--cream); margin-bottom: 6px;">Eleventh <span style="color: var(--gold);">Vow</span></div>
+  <div>Website Layout Brainstorm · Wireframes &amp; UX · Prepared May 2026</div>
+</footer>
+
+</body>
+</html>

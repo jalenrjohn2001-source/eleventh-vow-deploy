@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Eleventh Vow — Founding Venue Materials</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --midnight: #0A1729;
+    --midnight-soft: #1A2A44;
+    --gold: #C9A961;
+    --gold-light: #E0C589;
+    --cream: #FBF8F3;
+    --cream-warm: #F4EFE6;
+    --ink: #1A1A2E;
+    --muted: #6C7281;
+    --line: #E5DFD2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .display { font-family: 'Playfair Display', serif; font-weight: 600; letter-spacing: -0.02em; }
+
+  header {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    background: rgba(251, 248, 243, 0.95);
+  }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: var(--midnight); }
+  .logo span { color: var(--gold); }
+
+  .hero {
+    flex: 1;
+    padding: 80px 0 60px;
+    background: linear-gradient(180deg, var(--cream), var(--cream-warm));
+  }
+  .eyebrow {
+    color: var(--gold);
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    font-size: clamp(36px, 5vw, 54px);
+    line-height: 1.1;
+    color: var(--midnight);
+    margin-bottom: 20px;
+    max-width: 760px;
+  }
+  h1 em { color: var(--gold); font-style: italic; }
+  .sub {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 640px;
+    margin-bottom: 56px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 36px 32px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px rgba(10, 23, 41, 0.08);
+    border-color: var(--gold-light);
+  }
+  .card-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--midnight);
+    line-height: 1.2;
+  }
+  .card-desc {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .card-cta {
+    margin-top: 8px;
+    color: var(--midnight);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-cta::after {
+    content: "→";
+    transition: transform 0.2s ease;
+  }
+  .card:hover .card-cta::after { transform: translateX(4px); }
+
+  footer {
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="logo">Eleventh<span>Vow</span></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">Founding Venue Materials</div>
+    <h1>Two documents — the <em>numbers</em> and the <em>experience</em>.</h1>
+    <p class="sub">A look at the financial model behind the Founding Venue Profit Pilot, alongside the website brainstorm that shows how the brand will show up to couples and partners.</p>
+
+    <div class="cards">
+      <a class="card" href="/financial-analysis.html">
+        <div class="card-num">01 — Financials</div>
+        <div class="card-title">Financial Analysis</div>
+        <div class="card-desc">Conservative, realistic, and optimistic scenarios. Commission tiers, weekday economics, and the math behind the partnership.</div>
+        <div class="card-cta">Open document</div>
+      </a>
+
+      <a class="card" href="/website-brainstorm.html">
+        <div class="card-num">02 — Brand</div>
+        <div class="card-title">Website Layout Brainstorm</div>
+        <div class="card-desc">Sitemap, page-by-page layout direction, and the visual feel for the Eleventh Vow site couples and venues will see.</div>
+        <div class="card-cta">Open document</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">Eleventh Vow · Founding Venue Pilot</div>
+</footer>
+</body>
+</html>
